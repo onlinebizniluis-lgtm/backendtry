@@ -1,0 +1,94 @@
+/* =========================================
+   4.6. SYSTEM NOTIFICATIONS (TOASTS)
+   ========================================= */
+
+#toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 100000; /* Highest layer, just below Boot Screen */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none; /* Allow clicking through empty space */
+}
+
+/* Base Toast Style */
+.sys-toast {
+    pointer-events: auto; /* Re-enable clicks on the toast itself */
+    min-width: 300px;
+    max-width: 400px;
+    background: #0a0a0a; /* Deep dark background */
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent); /* Default Green Stripe */
+    color: #eee;
+    padding: 14px 18px;
+    border-radius: 2px; /* Sharp technical corners */
+    box-shadow: -10px 10px 30px rgba(0, 0, 0, 0.5);
+    
+    /* Typography */
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    line-height: 1.4;
+    
+    /* Layout */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    
+    /* Animation Entry */
+    transform: translateX(120%); /* Start off-screen right */
+    animation: toastSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* --- VARIATIONS --- */
+
+/* Error (Red) */
+.sys-toast.error {
+    border-left-color: var(--error);
+    background: linear-gradient(90deg, rgba(255, 68, 68, 0.05) 0%, #0a0a0a 100%);
+    box-shadow: -5px 5px 20px rgba(255, 68, 68, 0.1);
+}
+.sys-toast.error strong {
+    color: var(--error);
+}
+
+/* Success (Green/Accent) */
+.sys-toast.success, 
+.sys-toast.info {
+    border-left-color: var(--accent);
+    background: linear-gradient(90deg, rgba(0, 255, 157, 0.05) 0%, #0a0a0a 100%);
+    box-shadow: -5px 5px 20px rgba(0, 255, 157, 0.1);
+}
+.sys-toast.success strong,
+.sys-toast.info strong {
+    color: var(--accent);
+}
+
+/* Text Formatting inside Toast */
+.sys-toast strong {
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+.sys-toast span {
+    color: #ccc;
+}
+
+/* --- ANIMATIONS --- */
+
+/* Slide In from Right */
+@keyframes toastSlideIn {
+    from { transform: translateX(120%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* Slide Out to Right (Used by JS before removing) */
+@keyframes toastSlideOut {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(120%); opacity: 0; }
+}

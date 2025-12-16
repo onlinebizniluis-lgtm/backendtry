@@ -1,0 +1,128 @@
+/* =========================================
+   7. VISIBILITY CONTROL & UTILITIES
+   ========================================= */
+
+/* --- 1. HIDE MODAL MODULES (Checklist & Inputs) --- */
+/* These must be invisible by default. They only appear when the 
+   JS moves them into the Planning Modal. */
+#checklist-module,
+#entry-module,
+#tradeInputs_plan,
+#tradeInputs_standard {
+    display: none !important;
+}
+
+/* Exception: When they are inside an ACTIVE modal tab, show them */
+.plan-section.active #checklist-module,
+.plan-section.active #entry-module,
+.plan-section.active #tradeInputs_plan,
+.plan-section.active #tradeInputs_standard {
+    display: flex !important;
+    flex-direction: column;
+    animation: fadeIn 0.2s ease;
+}
+
+/* --- 2. HIDE GENERATOR STAGES (The "Leaking" Cards) --- */
+/* These elements (Protocol License, Intel Card) must exist for 
+   html2canvas to work, but they must NOT be seen by the user. 
+   We use 'fixed' to remove them from flow and throw them far off-screen. */
+#system-card-stage,
+#share-card-stage,
+#intel-card-visual {
+    position: fixed !important;
+    top: 0 !important;
+    left: -200vw !important; /* Move far left off-screen */
+    z-index: -9999 !important;
+    visibility: hidden !important; /* Extra safety */
+    pointer-events: none;
+}
+
+/* Override visibility ONLY when the specific preview modal is open */
+#intel-preview-modal #intel-card-visual {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    z-index: 1 !important;
+    visibility: visible !important;
+}
+
+/* --- 3. MODAL UTILITIES --- */
+.hidden {
+    display: none !important;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Ensure the modal overlay handles centering and z-index */
+.sys-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 5000;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    animation: fadeIn 0.2s forwards;
+}
+
+.sys-modal-overlay.hidden {
+    display: none !important;
+}
+
+/* --- 4. PLANNING MODAL TABS --- */
+.plan-modal-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+.plan-tabs {
+    display: flex;
+    gap: 10px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.plan-tab {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 8px 16px;
+    font-size: 10px;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    border-radius: 4px;
+    transition: 0.2s;
+}
+
+.plan-tab:hover {
+    color: #fff;
+    border-color: #666;
+}
+
+.plan-tab.active {
+    background: rgba(0, 255, 157, 0.1);
+    color: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 10px rgba(0, 255, 157, 0.1);
+}
+
+.plan-content-area {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.plan-section {
+    display: none;
+    height: 100%;
+}
+
+.plan-section.active {
+    display: block;
+}

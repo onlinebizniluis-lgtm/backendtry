@@ -1,0 +1,264 @@
+/* =========================================================================
+   TAB 5: TACTICAL DEBRIEFS (FINAL ELITE STRUCTURE)
+   ========================================================================= */
+
+/* --- 1. FILTER BAR (Search and Sort Controls) --- */
+.filter-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    background: #0f0f0f; /* Dark background for the control panel */
+    padding: 10px;
+    border-bottom: 1px solid #222;
+    flex-wrap: wrap;
+    align-items: center;
+    border-radius: 4px;
+}
+
+.filter-group {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.filter-label {
+    color: #555;
+    font-size: 9px;
+    font-weight: bold;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+}
+
+/* Small Inputs/Buttons (Used in filters) */
+.inp-sm {
+    background: #050505;
+    border: 1px solid #333;
+    color: #ccc;
+    padding: 5px 8px;
+    font-size: 10px;
+    font-family: var(--font-mono);
+    border-radius: 3px;
+    width: 60px; /* Constrained width for clean look */
+}
+
+.btn-sm {
+    background: #151515;
+    border: 1px solid #333;
+    color: #888;
+    padding: 5px 10px;
+    font-size: 9px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    border-radius: 3px;
+    transition: 0.2s;
+    text-transform: uppercase;
+}
+
+.btn-sm.active {
+    background: var(--accent-dim);
+    color: var(--accent);
+    border-color: var(--accent);
+}
+.btn-sm:hover:not(.active) {
+    background: #1a1a1a;
+    color: #ccc;
+    border-color: #555;
+}
+
+
+/* --- 2. THE DEBRIEF GRID (Responsive Card Layout) --- */
+.debrief-grid {
+    display: grid;
+    /* Responsive columns: Min width 300px, max 1fr */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding-bottom: 50px; /* Space at the bottom for scrolling */
+}
+
+/* --- 3. INDIVIDUAL DEBRIEF CARD (The Artifact) --- */
+.debrief-card {
+    background: #0b0b0b;
+    border: 1px solid #222;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ensure cards stretch equally in a row */
+}
+
+.debrief-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 255, 157, 0.05);
+}
+
+/* --- 4. CARD HEADER (Date & ID Strip) --- */
+.debrief-header {
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid #222;
+    padding: 12px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.debrief-date {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.debrief-id {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: #444;
+}
+
+/* --- 5. CARD BODY (Win/Loss Reflections) --- */
+.debrief-body {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex: 1; /* Allows body to push footer down */
+}
+
+/* Reflection Sections */
+.debrief-section {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.debrief-label {
+    font-size: 9px;
+    font-family: var(--font-mono);
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Success/Failure Indicators */
+.icon-success {
+    width: 6px; height: 6px; background: var(--accent);
+    border-radius: 50%; box-shadow: 0 0 5px var(--accent);
+}
+
+.icon-fail {
+    width: 6px; height: 6px; background: var(--error);
+    border-radius: 50%; box-shadow: 0 0 5px var(--error);
+}
+
+.debrief-text {
+    font-size: 11px;
+    color: #ccc;
+    line-height: 1.5;
+    /* Contained Look */
+    background: #050505;
+    border: 1px solid #1a1a1a;
+    padding: 10px;
+    border-radius: 2px;
+    min-height: 40px;
+    /* Limit height/lines to keep cards uniform */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Highlight the protocol breach text */
+.debrief-section.loss .debrief-text {
+    color: #ffaaaa;
+    border-color: rgba(255, 68, 68, 0.2);
+}
+
+/* --- 6. EVIDENCE IMAGE (Thumbnails) --- */
+.debrief-evidence {
+    margin-top: 8px;
+    border: 1px dashed #333;
+    background: #000;
+    height: 90px; /* Cinematic letterbox feel */
+    position: relative;
+    overflow: hidden;
+    cursor: zoom-in;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s all;
+}
+
+.debrief-evidence img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.6;
+    transition: 0.3s;
+    filter: grayscale(40%);
+}
+
+.debrief-evidence:hover img {
+    opacity: 1;
+    filter: grayscale(0%);
+    transform: scale(1.05);
+}
+
+.debrief-evidence::after {
+    content: "INTEL_IMG";
+    position: absolute;
+    bottom: 0; right: 0;
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+    font-size: 7px;
+    padding: 2px 5px;
+    font-family: var(--font-mono);
+    border-top-left-radius: 2px;
+}
+
+/* --- 7. FOCUS DIRECTIVE (Footer) --- */
+.debrief-footer {
+    background: rgba(0, 255, 157, 0.02);
+    border-top: 1px solid #222;
+    padding: 12px 15px;
+    margin-top: auto; /* Pushes to bottom of card */
+}
+
+.debrief-focus-label {
+    font-size: 8px;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    margin-bottom: 4px;
+    opacity: 0.7;
+}
+
+.debrief-focus-val {
+    font-size: 11px;
+    color: #fff;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* --- 8. EMPTY STATE --- */
+.empty-archive {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px;
+    color: #444;
+    border: 1px dashed #222;
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}

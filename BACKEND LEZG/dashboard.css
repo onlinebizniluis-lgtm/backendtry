@@ -1,0 +1,361 @@
+/* =========================================================================
+   5 & 6. DASHBOARD & ANALYTICS (PRO ELITE FINAL - SEMANTIC COLOR FIX)
+   ========================================================================= */
+
+/* --- 0. GLOBAL TEXT & SPACING --- */
+.hud-row, .tooltip-row, .data-row, .tt-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 15px !important;
+    width: 100%;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    line-height: 1.5;
+}
+
+/* --- A. TACTICAL DIRECTIVE (Compact Banner) --- */
+.focus-banner {
+    background: linear-gradient(180deg, rgba(0, 255, 157, 0.05) 0%, transparent 100%);
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    padding: 12px;
+    margin-bottom: 15px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    box-shadow: 0 0 30px rgba(0, 255, 157, 0.05), inset 0 0 20px rgba(0, 255, 157, 0.02);
+}
+.focus-label {
+    font-family: var(--font-mono); font-size: 9px; color: var(--accent);
+    letter-spacing: 3px; margin-bottom: 4px; font-weight: 700; text-transform: uppercase;
+    display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%;
+}
+.focus-label::before {
+    content: ''; width: 6px; height: 6px; background: var(--accent);
+    border-radius: 50%; animation: pulse 2s infinite; box-shadow: 0 0 8px var(--accent);
+}
+.focus-text {
+    font-family: var(--font-main); font-weight: 300; font-size: 16px; color: #fff; letter-spacing: 1px;
+}
+
+/* --- B. SESSION CLOCK (Centered) --- */
+.session-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 15px; }
+
+.sess-box {
+    background: #080808; border: 1px solid var(--border);
+    padding: 8px; border-radius: 4px; position: relative;
+    opacity: 0.6; transition: all 0.2s ease-out;
+    /* FORCE CENTER ALIGNMENT */
+    display: flex !important; flex-direction: column !important; 
+    align-items: center !important; justify-content: center !important; text-align: center !important;
+    min-height: 55px; /* Compact height */
+}
+.sess-box:hover { opacity: 1 !important; border-color: var(--accent); transform: translateY(-2px); z-index: 10; }
+.sess-box.active {
+    opacity: 1; border-color: var(--accent);
+    background: linear-gradient(180deg, rgba(0, 255, 157, 0.05) 0%, transparent 100%);
+    box-shadow: 0 0 15px rgba(0, 255, 157, 0.05);
+}
+.sess-title { font-family: var(--font-mono); font-size: 9px; font-weight: 700; color: var(--text-dim); margin-bottom: 4px; letter-spacing: 1px; width: 100%; }
+.sess-box.active .sess-title { color: #fff; }
+.sess-time { font-family: var(--font-mono); font-size: 10px; color: #666; font-weight: 500; }
+.sess-box.active .sess-time { color: var(--accent); }
+.sess-status { position: absolute; top: 5px; right: 5px; font-size: 8px; color: var(--accent); opacity: 0; }
+.sess-box.active .sess-status { opacity: 1; animation: pulse 1.5s infinite; }
+
+/* --- C. ANALYTICS CARDS (Tighter Layout) --- */
+.analytics-row { display: grid; gap: 15px; margin-bottom: 15px; }
+.analytics-row.three-col { grid-template-columns: 1fr 1fr 1fr; }
+
+.ana-card {
+    background: #080808; border: 1px solid var(--border);
+    padding: 15px; /* Compact padding */
+    border-radius: 6px; position: relative;
+    display: flex; flex-direction: column; 
+    min-height: 140px; 
+    overflow: visible !important; 
+}
+.ana-card:hover {
+    border-color: var(--accent);
+    background: linear-gradient(135deg, rgba(0,255,157,0.04) 0%, #080808 100%);
+    z-index: 5;
+}
+.ana-head {
+    font-family: var(--font-mono); font-size: 9px; color: var(--accent);
+    font-weight: 700; margin-bottom: 10px; text-transform: uppercase;
+    letter-spacing: 1.5px; border-bottom: 1px solid #1a1a1a;
+    padding-bottom: 5px; display: flex; justify-content: space-between;
+}
+
+/* --- D. TEMPORAL EDGE (Data Always Visible) --- */
+.dow-grid {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    height: 70px; /* Compact height */
+    gap: 6px; margin-top: auto; padding-bottom: 5px;
+}
+.dow-col {
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: flex-end; flex: 1; height: 100%; position: relative; cursor: crosshair;
+}
+.dow-bar {
+    width: 100%; border-radius: 2px;
+    transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative; opacity: 0.9; min-height: 0px;
+    background: #222;
+}
+
+/* 🟢 FORCE GREEN for any positive value */
+.dow-col:has(.dow-val[style*="var(--accent)"]) .dow-bar {
+    background: var(--accent) !important;
+    box-shadow: 0 0 10px rgba(0, 255, 157, 0.2);
+    min-height: 4px;
+}
+/* 🔴 FORCE RED for negative */
+.dow-col:has(.dow-val[style*="var(--error)"]) .dow-bar {
+    background: var(--error) !important;
+    box-shadow: 0 0 10px rgba(255, 68, 68, 0.2);
+    min-height: 4px;
+}
+/* ⚪ FORCE MUTED for neutral (0 RR) */
+.dow-col:has(.dow-val[style*="#444"]) .dow-bar {
+    background: #444 !important;
+    box-shadow: none;
+    min-height: 4px;
+}
+
+
+/* The Value Text (ALWAYS VISIBLE ABOVE BAR) */
+.dow-val {
+    display: block !important;
+    position: static !important; /* Stack normally */
+    font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+    margin-bottom: 4px; text-align: center; width: 100%;
+    opacity: 1 !important;
+}
+
+/* Hide if no data (to prevent visible gray bar) */
+.dow-col:not(:has(.dow-val[style*="var(--accent)"])):not(:has(.dow-val[style*="var(--error)"])):not(:has(.dow-val[style*="#444"])) .dow-bar,
+.dow-col:not(:has(.dow-val[style*="var(--accent)"])):not(:has(.dow-val[style*="var(--error)"])):not(:has(.dow-val[style*="#444"])) .dow-val {
+    display: none !important;
+}
+
+.dow-lbl {
+    margin-top: 6px; font-family: var(--font-mono); font-size: 9px;
+    color: var(--text-dim); text-transform: uppercase; text-align: center;
+}
+
+/* --- E. CURRENT FORM (Pill Ticker) --- */
+.form-ticker {
+    display: flex !important;
+    flex-direction: row !important; 
+    align-items: center !important;
+    justify-content: space-between !important; 
+    gap: 4px !important;
+    width: 100% !important;
+    margin-top: auto;
+    padding-bottom: 5px;
+}
+
+.form-pill {
+    flex: 1 !important; 
+    height: 28px !important; 
+    min-width: 0 !important; 
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    font-family: var(--font-mono); font-size: 10px; font-weight: 800; border-radius: 2px;
+    background: #111; border: 1px solid #333; color: #666;
+    transition: all 0.2s; cursor: help;
+}
+.form-pill.W { 
+    background: rgba(0, 255, 157, 0.1) !important; 
+    border-color: var(--accent) !important; 
+    color: var(--accent) !important; 
+}
+.form-pill.L { 
+    background: rgba(255, 68, 68, 0.1) !important; 
+    border-color: var(--error) !important; 
+    color: var(--error) !important; 
+}
+/* ⚪ FIX: Breakeven (BE) Pill Styling */
+.form-pill:not(.W):not(.L) {
+    background: rgba(255, 255, 255, 0.05) !important; 
+    border-color: #555 !important; 
+    color: #999 !important; 
+}
+
+.form-pill:hover { transform: translateY(-3px); filter: brightness(1.2); z-index: 100; border-color: #fff !important; }
+
+/* --- F. DISCIPLINE METER (Compact) --- */
+.disc-wrapper {
+    position: relative; width: 90px; height: 90px; margin: auto; 
+    margin-bottom: 20px; 
+    border-radius: 50%; background: #080808;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
+}
+.disc-ring {
+    position: absolute; inset: 0; border-radius: 50%;
+    background: conic-gradient(var(--border) 0%, var(--border) 100%);
+    mask: radial-gradient(closest-side, transparent 78%, black 0%);
+    -webkit-mask: radial-gradient(closest-side, transparent 78%, black 0%);
+}
+.disc-value {
+    font-family: var(--font-mono); font-size: 20px; font-weight: 800;
+    color: #fff; z-index: 2; margin-top: -5px;
+}
+/* Label strictly positioned inside card */
+.disc-label {
+    position: absolute; top: 115%; left: 50%; transform: translateX(-50%);
+    width: 100%; text-align: center; font-size: 9px; color: var(--accent);
+    font-family: var(--font-mono); letter-spacing: 2px; font-weight: 700; text-transform: uppercase;
+}
+
+/* --- G. KPI GRID (Centered Content) --- */
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 15px; }
+
+.kpi-card {
+    background: #080808; border: 1px solid var(--border);
+    padding: 15px; border-radius: 6px; position: relative;
+    display: flex; flex-direction: column; justify-content: center;
+    align-items: center; 
+    text-align: center; 
+    min-height: 80px; overflow: visible !important;
+}
+.kpi-card:hover {
+    border-color: var(--accent);
+    background: linear-gradient(135deg, rgba(0,255,157,0.05) 0%, #080808 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    z-index: 10; cursor: help;
+}
+/* KPI Tooltip */
+.kpi-card[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%);
+    background: rgba(5, 5, 5, 0.98); border: 1px solid var(--accent);
+    padding: 6px 10px; border-radius: 4px; font-size: 10px; color: #fff;
+    font-family: var(--font-mono); white-space: nowrap; pointer-events: none;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.8); z-index: 999; animation: fadeIn 0.2s;
+}
+
+.kpi-card:hover .kpi-lbl { color: #fff; }
+.kpi-card:hover .kpi-val { text-shadow: 0 0 10px rgba(255,255,255,0.2); }
+
+.kpi-lbl {
+    font-size: 9px; color: #666; margin-bottom: 5px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px; width: 100%;
+    display: flex; justify-content: center; 
+    transition: color 0.2s;
+}
+.kpi-val { font-family: var(--font-mono); font-size: 18px; color: #fff; font-weight: 800; transition: text-shadow 0.2s; }
+.freq-bar { height: 3px; width: 100%; background: #1a1a1a; margin-top: 8px; border-radius: 2px; overflow: hidden; }
+.freq-fill { height: 100%; background: var(--accent); width: 0%; transition: width 1s ease; box-shadow: 0 0 10px var(--accent); }
+
+/* --- H. CHART (Absolute Tooltip Fix) --- */
+.chart-container {
+    width: 100%; height: 280px; background: #080808;
+    border: 1px solid var(--border); border-radius: 4px;
+    position: relative !important; 
+    cursor: crosshair;
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.5);
+}
+
+/* CHART HUD (Inside Container) */
+.chart-hud {
+    position: absolute !important; 
+    top: 0; left: 0; pointer-events: none;
+    background: rgba(5, 5, 5, 0.95) !important;
+    border: 1px solid var(--accent) !important;
+    padding: 10px 12px !important; border-radius: 4px; 
+    z-index: 100; display: none;
+    min-width: 140px; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+/* TICKER TOOLTIP (Fixed to Mouse) */
+#ticker-tooltip {
+    position: fixed !important;
+    z-index: 999999 !important;
+    background: rgba(5, 5, 5, 0.98) !important;
+    border: 1px solid var(--accent) !important;
+    padding: 10px 12px !important;
+    border-radius: 4px;
+    pointer-events: none;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.9);
+    display: none;
+}
+
+svg.tech-chart { display: block; overflow: visible; }
+path.line-path { fill: none; stroke: var(--accent); stroke-width: 2px; filter: drop-shadow(0 0 4px var(--accent)); }
+path.area-path { stroke: none; fill: url(#chartGradient); opacity: 0.15; }
+line.grid-line { stroke: var(--border); stroke-width: 1px; stroke-dasharray: 4 4; opacity: 0.3; }
+
+/* Edge Finder Spacing Fix */
+#setup-wrapper > div > div {
+    display: flex !important; align-items: center !important; justify-content: space-between !important;
+    gap: 15px !important; padding: 4px 0 !important; border-bottom: 1px dashed #1a1a1a !important;
+}
+#setup-wrapper > div > div > div:first-child { width: 85px !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 10px; }
+#setup-wrapper > div > div > div:last-child { width: 35px !important; text-align: right; font-weight: 700; }
+
+/* Responsive */
+@media (max-width: 900px) {
+    .analytics-row.three-col { grid-template-columns: 1fr; }
+    .session-bar { grid-template-columns: 1fr 1fr; }
+}
+
+/* =========================================================================
+   DASHBOARD CHART SEMANTIC FIX (PURE CSS MASKING)
+   ========================================================================= */
+
+/* --- 1. THE MASKING OVERLAY CONTAINER --- */
+/* This container will hold the semi-transparent red layer */
+.chart-container {
+    /* CRITICAL: Anchor the absolute positioning of the overlay */
+    position: relative; 
+    overflow: hidden; /* Necessary to contain the mask layer */
+}
+
+/* --- 2. THE NEGATIVE COLOR LAYER --- */
+/* A red, semi-transparent layer that covers the entire chart area. 
+   It will be invisible until the line goes below zero. */
+.chart-negative-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* Subtle red hazard pattern background */
+    background: repeating-linear-gradient(
+        45deg,
+        rgba(255, 68, 68, 0.05),
+        rgba(255, 68, 68, 0.05) 10px,
+        rgba(0, 0, 0, 0.1) 10px,
+        rgba(0, 0, 0, 0.1) 20px
+    );
+    
+    /* Initially hidden/transparent */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    z-index: 9; /* Must be below the HUD (z-index: 100) but above the line/area (z-index: default) */
+}
+
+/* --- 3. THE SVG LINE/AREA CLIPPING --- */
+/* This is a complex part requiring JavaScript to function ideally, 
+   but for a visual simulation (overriding the green glow/color hints): */
+
+/* When the line is negative, make the existing line/area glow red. 
+   This requires a class applied via JS based on `lastVal < 0`. 
+   Since we cannot touch JS, we will focus on enhancing the masking visual. */
+
+.chart-container.negative-equity .chart-negative-mask {
+    /* If the JavaScript logic updates the container class 
+       (e.g., based on the final point being < 0), show the mask. */
+    opacity: 1;
+}
+
+/* --- 4. ZERO LINE EMPHASIS --- */
+line.zero-line {
+    stroke: #666 !important; /* Make the zero line clear and visible */
+    stroke-width: 1px !important;
+}
+
